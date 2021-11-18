@@ -2,6 +2,7 @@ from typing import List
 import databases
 import sqlalchemy
 from fastapi import FastAPI, status
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
@@ -110,6 +111,17 @@ The status code on successful creation of note will be 201. This can be seen as 
  status_code passed to post method which accepts integer value held by status.HTTP_201_CREATED. 
 Add the following code to main.py to add a note to the table.
 '''
+
+@app.get('/')
+def hello_world():
+    return{'hello':'world'}
+
+@app.get('/favicon.ico')
+async def favicon():
+    file_name = "favicon.ico"
+    file_path = os.path.join(app.root_path, "static")
+    return FileResponse(path=file_path, headers={"Content-Disposition": "attachment; filename=" + file_name})
+
 
 @app.post("/notes/", response_model=Note, status_code = status.HTTP_201_CREATED)
 async def create_note(note: NoteIn):
