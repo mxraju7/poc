@@ -1,1 +1,1 @@
-web: gunicorn fastapi-postgres-tutorial.main --log-file -
+web: gunicorn main:app
